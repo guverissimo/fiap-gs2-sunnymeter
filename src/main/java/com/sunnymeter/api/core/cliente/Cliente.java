@@ -10,7 +10,7 @@ public class Cliente {
 	
 	@Id
     @GeneratedValue(generator = "UUID")
-    private UUID 			id;
+    private UUID 			client_uuid;
 	private String 			nome;
 	private String  		documento;
 	private String 			endereco;
@@ -31,10 +31,10 @@ public class Cliente {
 	}
 	
 	public UUID getId() {
-		return id;
+		return client_uuid;
 	}
 	public void setId(UUID id) {
-		this.id = id;
+		this.client_uuid = id;
 	}
 	public String getNome() {
 		return nome;
