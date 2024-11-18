@@ -3,6 +3,7 @@ package com.sunnymeter.api.v1;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,10 @@ public class ClienteController {
 	@PostMapping
 	@Transactional
 	public ResponseEntity create(@RequestBody @Valid DadosCadastroCliente dados, UriComponentsBuilder uriBuilder ) {
+		 if (repository.existsByDocumento(dados.documento())) {
+		        return ResponseEntity.badRequest().body("Já existe um cliente com este documento.");
+		    }
+		
 		var cliente = new Cliente(dados);
 		repository.save(cliente);
 		var uri = uriBuilder.path("/clientes/{id}").buildAndExpand(cliente.getId()).toUri();	
@@ -42,5 +47,6 @@ public class ClienteController {
 	    var cliente = repository.getReferenceById(cliente_uuid);
 	    return ResponseEntity.ok(new DadosDetalhamentoCliente(cliente));
 	}
+	
 
 }

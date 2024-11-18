@@ -9,4 +9,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ClienteRepository extends JpaRepository<Cliente, UUID> {
 	Page<Cliente> findAllByAtivoTrue(Pageable paginacao);
+	boolean existsByDocumento(String documento);
 }
