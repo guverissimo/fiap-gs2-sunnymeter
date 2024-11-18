@@ -20,6 +20,9 @@ public class Cliente {
 	@Enumerated(EnumType.STRING)
 	private TipoDocumento  	tipo;
 	
+    public Cliente() {
+    }
+	
 	public Cliente(DadosCadastroCliente dados) {
 		super();
 		this.nome 		= dados.nome();
@@ -59,6 +62,22 @@ public class Cliente {
 	}
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
+	}
+
+	public String getDocumento() {
+		return documento;
+	}
+
+	public void setDocumento(String documento) {
+		this.documento = documento;
+	}
+
+	public TipoDocumento getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoDocumento tipo) {
+		this.tipo = tipo;
 	}
 
 }
