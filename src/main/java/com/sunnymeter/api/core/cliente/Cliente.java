@@ -15,7 +15,7 @@ public class Cliente {
 	private String  		documento;
 	private String 			endereco;
 	private String 			cep;
-	private Boolean 		ativo;
+	private boolean 		ativo;
 	
 	@Enumerated(EnumType.STRING)
 	private TipoDocumento  	tipo;
@@ -57,10 +57,10 @@ public class Cliente {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
-	public Boolean getAtivo() {
+	public boolean getAtivo() {
 		return ativo;
 	}
-	public void setAtivo(Boolean ativo) {
+	public void setAtivo(boolean ativo) {
 		this.ativo = ativo;
 	}
 
