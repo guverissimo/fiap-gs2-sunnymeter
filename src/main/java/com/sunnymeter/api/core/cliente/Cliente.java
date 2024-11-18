@@ -79,5 +79,9 @@ public class Cliente {
 	public void setTipo(TipoDocumento tipo) {
 		this.tipo = tipo;
 	}
+	
+	public void delete() {
+		this.ativo = false;
+	}
 
 }

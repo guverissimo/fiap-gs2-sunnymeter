@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,10 +44,18 @@ public class ClienteController {
 	}
 	
 	@GetMapping("/{cliente_uuid}")
-	public ResponseEntity detalhar(@PathVariable UUID cliente_uuid) {
+	public ResponseEntity findById(@PathVariable UUID cliente_uuid) {
 	    var cliente = repository.getReferenceById(cliente_uuid);
 	    return ResponseEntity.ok(new DadosDetalhamentoCliente(cliente));
 	}
 	
+	@DeleteMapping("{cliente_uuid}")
+	@Transactional
+	public ResponseEntity delete(@PathVariable UUID cliente_uuid) {
+		var cliente = repository.getReferenceById(cliente_uuid);
+		cliente.delete();
+		
+		return ResponseEntity.noContent().build();
+	}
 
 }
