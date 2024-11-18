@@ -9,4 +9,4 @@ public record DadosDetalhamentoCliente (UUID client_uui, String nome,  String en
 				cliente.getDocumento(), cliente.getCep(), cliente.getAtivo(), cliente.getTipo());
 	}
 
-}
+}	

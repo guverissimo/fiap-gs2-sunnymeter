@@ -41,7 +41,7 @@ public class ClienteController {
 		
 		var cliente = new Cliente(dados);
 		repository.save(cliente);
-		var uri = uriBuilder.path("/clientes/{id}").buildAndExpand(cliente.getId()).toUri();	
+		var uri = uriBuilder.path("/clientes/{cliente_uuid}").buildAndExpand(cliente.getId()).toUri();	
 		return ResponseEntity.created(uri).body(new DadosDetalhamentoCliente(cliente));
 	}
 	
