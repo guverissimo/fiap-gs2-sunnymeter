@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,6 +50,15 @@ public class InstalacaoController {
 	public ResponseEntity<Page<DadosDetalhamentoInstalacao>> findAll(@PageableDefault(size = 10, sort = {"endereco"}) Pageable paginacao) {
 		var page = repository.findAll(paginacao).map(DadosDetalhamentoInstalacao::new);
 		return ResponseEntity.ok(page);
+	}
+	
+	@DeleteMapping("{instalacao_uuid}")
+	@Transactional
+	public ResponseEntity delete(@PathVariable UUID instalacao_uuid) {
+		var instalacao = repository.getReferenceById(instalacao_uuid);
+		instalacao.delete();
+		
+		return ResponseEntity.ok(new DadosDetalhamentoInstalacao(instalacao));
 	}
 	
 	
