@@ -3,6 +3,9 @@ package com.sunnymeter.api.v1;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,4 +44,12 @@ public class InstalacaoController {
 		var instalacao = repository.getReferenceById(instalacao_uuid);
 		return ResponseEntity.ok(new DadosDetalhamentoInstalacao(instalacao));
 	}
+	
+	@GetMapping
+	public ResponseEntity<Page<DadosDetalhamentoInstalacao>> findAll(@PageableDefault(size = 10, sort = {"endereco"}) Pageable paginacao) {
+		var page = repository.findAll(paginacao).map(DadosDetalhamentoInstalacao::new);
+		return ResponseEntity.ok(page);
+	}
+	
+	
 }

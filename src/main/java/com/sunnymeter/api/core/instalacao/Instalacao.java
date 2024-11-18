@@ -55,6 +55,8 @@ public class Instalacao {
 		this.ativo = ativo;
 	}
 	
-	
+	public void delete() {
+		this.ativo = false;
+	}
 
 }
