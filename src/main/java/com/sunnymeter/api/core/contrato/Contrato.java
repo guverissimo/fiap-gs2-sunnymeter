@@ -12,7 +12,7 @@ public class Contrato {
 	private UUID 	contrato_uuid;
 	private UUID 	instalacao_uuid;
 	private UUID 	cliente_uuid;
-	private String	contrato_inicio_timestamp;
+	private long	contrato_inicio_timestamp;
 	private int 	timeframe;
 	private boolean status;
 	
@@ -51,13 +51,13 @@ public class Contrato {
 		this.cliente_uuid = cliente_uuid;
 	}
 
-	public String getContrato_inicio_timestamp() {
+	public long getContrato_inicio_timestamp() {
 		return contrato_inicio_timestamp;
 	}
 
 	public void setContrato_inicio_timestamp() {
 		Instant time = Instant.now();
-		this.contrato_inicio_timestamp = String.valueOf(time.getEpochSecond());
+		this.contrato_inicio_timestamp = time.getEpochSecond();
 	}
 
 	public int getTimeframe() {
