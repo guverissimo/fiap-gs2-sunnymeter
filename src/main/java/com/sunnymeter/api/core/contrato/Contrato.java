@@ -23,6 +23,7 @@ public class Contrato {
 		this.instalacao_uuid = 	dados.instalacao_uuid();
 		this.timeframe 		 = 	dados.timeframe();
 		this.setContrato_inicio_timestamp();
+		this.status = true;
 		
 	}
 
@@ -75,5 +76,8 @@ public class Contrato {
 		this.status = ativo;
 	}
 	
+	public void deletar() {
+		this.status = false;
+	}
 	
 }
