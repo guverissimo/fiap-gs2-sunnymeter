@@ -3,13 +3,14 @@ package com.sunnymeter.api.core.contrato;
 import java.util.UUID;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record DadosCadastroContrato(
-		@NotBlank
+		@NotNull
 		UUID cliente_uuid,
-		@NotBlank
+		@NotNull
 		UUID instalacao_uuid,
-		@NotBlank
+		@NotNull
 		int  timeframe
 		) {
 

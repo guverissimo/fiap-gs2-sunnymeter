@@ -3,7 +3,7 @@ package com.sunnymeter.api.core.contrato;
 import java.time.Instant;
 import java.util.UUID;
 
-public record DadosDetalhamentoContrato (UUID contrato_uuid, UUID cliente_uuid, UUID instalacao_uuid, int timeframe, boolean ativo, Instant contrato_inicio_timestamp  ) {
+public record DadosDetalhamentoContrato (UUID contrato_uuid, UUID cliente_uuid, UUID instalacao_uuid, int timeframe, boolean ativo, String contrato_inicio_timestamp  ) {
 	public DadosDetalhamentoContrato(Contrato contrato) {
 		this(
 				contrato.getContrato_uuid(), 

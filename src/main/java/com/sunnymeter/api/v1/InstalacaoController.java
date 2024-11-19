@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import com.sunnymeter.api.core.instalacao.DadosCadastroInstalacao;
 import com.sunnymeter.api.core.instalacao.DadosDetalhamentoInstalacao;
 import com.sunnymeter.api.core.instalacao.Instalacao;
