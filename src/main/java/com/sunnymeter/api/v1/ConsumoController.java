@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.sunnymeter.api.core.instalacao.DadosDetalhesConsumoInstalacao;
+import com.sunnymeter.api.core.instalacao.Instalacao;
 import com.sunnymeter.api.core.instalacao.InstalacaoRepository;
 import com.sunnymeter.api.core.registro.consumo.Consumo;
 import com.sunnymeter.api.core.registro.consumo.ConsumoRepository;
@@ -40,6 +41,7 @@ public class ConsumoController {
 		var instalacao = instalacaoRepository.findById(dados.instalacao_uuid())
                  .orElseThrow(() -> new IllegalArgumentException("Instalação não encontrada: " + dados.instalacao_uuid()));
 		instalacao.adicionarConsumo(dados.consumo_kwh());
+		System.out.println("adicionarConsumo: " + dados.consumo_kwh());
 		repository.save(consumo);
 		var uri = uriBuilder.path("consumo/{instalacao_uuid}").buildAndExpand(consumo.getInstalacao_uuid()).toUri();
 		return ResponseEntity.created(uri).body(new DadosDetalheCadastroConsumo(consumo));
@@ -47,11 +49,9 @@ public class ConsumoController {
 	
 	@GetMapping("{instalacao_uuid}")
 	public ResponseEntity find(@PathVariable UUID instalacao_uuid) {
-		var instalacao = instalacaoRepository.getReferenceById(instalacao_uuid);
-		if (instalacao == null) {
-			return ResponseEntity.badRequest().body("Não foi possível encontrar esta instalação");
-		}
-		
+		var instalacao = instalacaoRepository.findById(instalacao_uuid)
+                .orElseThrow(() -> new IllegalArgumentException("Instalação não encontrada: " + instalacao_uuid));
+		instalacao.calculo();
 		return ResponseEntity.ok(new DadosDetalhesConsumoInstalacao(instalacao));
 	}
 }
