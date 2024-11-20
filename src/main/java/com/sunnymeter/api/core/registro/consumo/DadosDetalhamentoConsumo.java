@@ -13,6 +13,7 @@ public record DadosDetalhamentoConsumo(
 		double	consumo_diario_medio_kwh,
 		double	consumo_mensal_estimado_kwh
 		) {
+	
 	public DadosDetalhamentoConsumo(Consumo consumo) {
 		this(
 			consumo.getInstalacao_uuid(),
@@ -26,17 +27,3 @@ public record DadosDetalhamentoConsumo(
 			consumo.getConsumo_mensal_estimado_kwh() );
 	}
 }
-
-
-//{
-//"instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
-//"timestamp_calculo": 1731445100 // November 12 2024 20:58:20 AM,
-//"dia_referencia": "12",
-//"mes_referencia": "Novembro",
-//"ano_referencia": "2024",
-//"dias_para_acabar_o_mes": "18",
-//"consumo_mensal_medio_kwh: 44.4,
-//"consumo_diario_medio_kwh: 3.7,
-//"consumo_mensal_estimado_kwh: 111.0
-//}
-
