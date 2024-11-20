@@ -11,14 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
-
 import com.sunnymeter.api.core.instalacao.DadosDetalhesConsumoInstalacao;
-import com.sunnymeter.api.core.instalacao.Instalacao;
 import com.sunnymeter.api.core.instalacao.InstalacaoRepository;
 import com.sunnymeter.api.core.registro.consumo.Consumo;
 import com.sunnymeter.api.core.registro.consumo.ConsumoRepository;
 import com.sunnymeter.api.core.registro.consumo.DadosCadastroConsumo;
-import com.sunnymeter.api.core.registro.consumo.DadosDetalhamentoConsumo;
 import com.sunnymeter.api.core.registro.consumo.DadosDetalheCadastroConsumo;
 
 import jakarta.transaction.Transactional;
@@ -41,7 +38,6 @@ public class ConsumoController {
 		var instalacao = instalacaoRepository.findById(dados.instalacao_uuid())
                  .orElseThrow(() -> new IllegalArgumentException("Instalação não encontrada: " + dados.instalacao_uuid()));
 		instalacao.adicionarConsumo(dados.consumo_kwh());
-		System.out.println("adicionarConsumo: " + dados.consumo_kwh());
 		repository.save(consumo);
 		var uri = uriBuilder.path("consumo/{instalacao_uuid}").buildAndExpand(consumo.getInstalacao_uuid()).toUri();
 		return ResponseEntity.created(uri).body(new DadosDetalheCadastroConsumo(consumo));

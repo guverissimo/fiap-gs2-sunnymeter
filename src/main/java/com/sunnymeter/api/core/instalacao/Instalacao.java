@@ -66,9 +66,6 @@ public class Instalacao {
 	    this.dias_para_acabar_o_mes = diasRestantes;
 	    
 	    // "consumo_mensal_medio_kwh"
-	    if (registrosDoMes.isEmpty()) {
-	    	registrosDoMes.add(0.0); // Adiciona 0.0 caso a lista esteja vazia (precaução)
-	    }
 	    double consumoMensal = registrosDoMes.get(registrosDoMes.size() - 1) - registrosDoMes.get(0);
 	    this.consumo_mensal_estimado_kwh = consumoMensal;
 	    System.out.println("Consumo Mensal Estimado: " + consumoMensal);
