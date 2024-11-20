@@ -2,11 +2,14 @@ package com.sunnymeter.api.core.registro.consumo;
 
 import java.time.Instant;
 import java.util.UUID;
-
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
 
 @Entity
 public class Consumo {
+	
+	@Id
+	@GeneratedValue(generator = "UUID")
+	private UUID	consumo_uuid;
 	
 	private UUID 	instalacao_uuid;
 	private long 	timestamp_calculo;
@@ -28,6 +31,18 @@ public class Consumo {
 		this.medicao_timestamp	= dados.medicacao_timestamp();
 	}
 	
+
+	public UUID getConsumo_uuid() {
+		return consumo_uuid;
+	}
+
+	public void setConsumo_uuid(UUID consumo_uuid) {
+		this.consumo_uuid = consumo_uuid;
+	}
+
+	public void setMedicao_timestamp(long medicao_timestamp) {
+		this.medicao_timestamp = medicao_timestamp;
+	}
 
 	public UUID getInstalacao_uuid() {
 		return instalacao_uuid;
@@ -119,7 +134,6 @@ public class Consumo {
 	}
 	
 }
-
 
 //{
 //    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
