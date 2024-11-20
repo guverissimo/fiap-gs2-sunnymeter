@@ -8,7 +8,7 @@ public record DadosDetalhamentoConsumo(
 		int  	dia_referencia,
 		String 	mes_referencia,
 		int 	ano_referencia,
-		int		dias_para_acabar_o_mes,
+		long	dias_para_acabar_o_mes,
 		double	consumo_mensal_medio_kwh,
 		double	consumo_diario_medio_kwh,
 		double	consumo_mensal_estimado_kwh

@@ -12,6 +12,7 @@ import com.sunnymeter.api.core.registro.consumo.Consumo;
 import com.sunnymeter.api.core.registro.consumo.ConsumoRepository;
 import com.sunnymeter.api.core.registro.consumo.DadosCadastroConsumo;
 import com.sunnymeter.api.core.registro.consumo.DadosDetalhamentoConsumo;
+import com.sunnymeter.api.core.registro.consumo.DadosDetalheCadastroConsumo;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
@@ -28,9 +29,7 @@ public class ConsumoController {
 	public ResponseEntity create(@RequestBody @Valid DadosCadastroConsumo dados, UriComponentsBuilder uriBuilder) {
 		var consumo = new Consumo(dados);
 		repository.save(consumo);
-		
 		var uri = uriBuilder.path("consumo/{instalacao_uuid}").buildAndExpand(consumo.getInstalacao_uuid()).toUri();
-		return ResponseEntity.created(uri).body(new DadosDetalhamentoConsumo(consumo));
-		
+		return ResponseEntity.created(uri).body(new DadosDetalheCadastroConsumo(consumo));
 	}
 }

@@ -1,6 +1,9 @@
 package com.sunnymeter.api.core.registro.consumo;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.UUID;
 import jakarta.persistence.*;
 
@@ -9,35 +12,36 @@ public class Consumo {
 	
 	@Id
 	@GeneratedValue(generator = "UUID")
-	private UUID	consumo_uuid;
-	
+	private UUID	registro_consumo_uuid;
 	private UUID 	instalacao_uuid;
 	private long 	timestamp_calculo;
 	private long	medicao_timestamp;
 	private int  	dia_referencia;
 	private String 	mes_referencia;
 	private int 	ano_referencia;
-	private int		dias_para_acabar_o_mes;
+	private long	dias_para_acabar_o_mes;
 	private double	consumo_kwh;
 	private double	consumo_mensal_medio_kwh;
 	private double	consumo_diario_medio_kwh;
 	private double	consumo_mensal_estimado_kwh;
+	private long	created_at;
 	
 	public Consumo() {}
 	
 	public Consumo(DadosCadastroConsumo dados) {
 		this.instalacao_uuid 	= dados.instalacao_uuid();
 		this.consumo_kwh 	 	= dados.consumo_kwh();
-		this.medicao_timestamp	= dados.medicacao_timestamp();
+		this.medicao_timestamp	= dados.medicao_timestamp();
+		this.setCreated_at();
 	}
 	
 
-	public UUID getConsumo_uuid() {
-		return consumo_uuid;
+	public UUID getRegistro_consumo_uuid() {
+		return registro_consumo_uuid;
 	}
 
-	public void setConsumo_uuid(UUID consumo_uuid) {
-		this.consumo_uuid = consumo_uuid;
+	public void setRegistro_consumo_uuid(UUID consumo_uuid) {
+		this.registro_consumo_uuid = consumo_uuid;
 	}
 
 	public void setMedicao_timestamp(long medicao_timestamp) {
@@ -84,12 +88,16 @@ public class Consumo {
 		this.ano_referencia = ano_referencia;
 	}
 
-	public int getDias_para_acabar_o_mes() {
+	public long getDias_para_acabar_o_mes() {
 		return dias_para_acabar_o_mes;
 	}
 
-	public void setDias_para_acabar_o_mes(int dias_para_acabar_o_mes) {
-		this.dias_para_acabar_o_mes = dias_para_acabar_o_mes;
+	public void setDias_para_acabar_o_mes(long timestamp) {
+		Instant instant = Instant.ofEpochSecond(timestamp);
+        LocalDate dataAtual = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate primeiroDiaProximoMes = dataAtual.plusMonths(1).withDayOfMonth(1);
+        long diasFaltantes = ChronoUnit.DAYS.between(dataAtual, primeiroDiaProximoMes);
+        this.dias_para_acabar_o_mes = diasFaltantes;
 	}
 
 	public double getConsumo_mensal_medio_kwh() {
@@ -120,10 +128,6 @@ public class Consumo {
 		return medicao_timestamp;
 	}
 
-	public void setMedicao_timestamp() {
-		Instant time = Instant.now();
-		this.medicao_timestamp = time.getEpochSecond();
-	}
 
 	public double getConsumo_kwh() {
 		return consumo_kwh;
@@ -133,16 +137,13 @@ public class Consumo {
 		this.consumo_kwh = consumo_kwh;
 	}
 	
+	public void setCreated_at() {
+		Instant time = Instant.now();
+		this.created_at = time.getEpochSecond();
+	}
+	
+	public long getCreated_at() {
+		return created_at;
+	}
+	
 }
-
-//{
-//    "instalacao_uuid": "7da41106-5109-45f4-8d09-9ca405c33e5c",
-//    "timestamp_calculo": 1731445100 // November 12 2024 20:58:20 AM,
-//    "dia_referencia": "12",
-//    "mes_referencia": "Novembro",
-//    "ano_referencia": "2024",
-//    "dias_para_acabar_o_mes": "18",
-//    "consumo_mensal_medio_kwh: 44.4,
-//    "consumo_diario_medio_kwh: 3.7,
-//    "consumo_mensal_estimado_kwh: 111.0
-//}
