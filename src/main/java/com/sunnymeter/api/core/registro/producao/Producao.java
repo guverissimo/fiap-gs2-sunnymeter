@@ -20,7 +20,12 @@ public class Producao {
 	
 	public Producao() {}
 	
-	
+	public Producao(DadosCadastroProducao dados){
+		this.instalacao_uuid 	= dados.instalacao_uuid();
+		this.producao_kwh 		= dados.producao_kwh();
+		this.medicao_timestamp 	= dados.medicao_timestamp();
+		setCreated_at(created_at);
+	}
 
 	public UUID getRegistro_producao_uuid() {
 		return registro_producao_uuid;
