@@ -65,19 +65,23 @@ public class Instalacao {
         int diasRestantes = (int) java.time.temporal.ChronoUnit.DAYS.between(localDate, ultimoDiaDoMes);
 	    this.dias_para_acabar_o_mes = diasRestantes;
 	    
-	    // "consumo_mensal_medio_kwh"
-	    double consumoMensal = registrosDoMes.get(registrosDoMes.size() - 1) - registrosDoMes.get(0);
-	    this.consumo_mensal_estimado_kwh = consumoMensal;
-	    System.out.println("Consumo Mensal Estimado: " + consumoMensal);
-	    
+	    // "consumo_mensal_estimado_kwh"
+	    if (!registrosDoMes.isEmpty()) {
+	        double consumoMensal = registrosDoMes.get(registrosDoMes.size() - 1) - registrosDoMes.get(0); // Consumo do mês
+	        this.consumo_mensal_estimado_kwh = consumoMensal;
+	        System.out.println("Consumo Mensal Estimado: " + consumoMensal);
+	    } else {
+	        this.consumo_mensal_estimado_kwh = 0;
+	    }
+
 	    // Calcular o número de dias do mês
 	    LocalDate primeiroDiaDoMes = localDate.withDayOfMonth(1);
 	    LocalDate ultimoDiaDoMesCalculado = localDate.with(TemporalAdjusters.lastDayOfMonth());
-	    long diasNoMes = ChronoUnit.DAYS.between(primeiroDiaDoMes, ultimoDiaDoMesCalculado) + 1;
+	    long diasNoMes = ChronoUnit.DAYS.between(primeiroDiaDoMes, ultimoDiaDoMesCalculado) + 1;  // +1 para incluir o último dia
 	    
 	    // Calcular o consumo diário médio
 	    if (diasNoMes > 0) {
-	        this.consumo_diario_medio_kwh = consumoMensal / diasNoMes;
+	        this.consumo_diario_medio_kwh = this.consumo_mensal_estimado_kwh / diasNoMes;
 	    }
 	    System.out.println("Consumo Diário Médio: " + this.consumo_diario_medio_kwh);
     }
@@ -184,6 +188,12 @@ public class Instalacao {
 
 	public void setConsumo_mensal_estimado_kwh(double consumo_mensal_estimado_kwh) {
 		this.consumo_mensal_estimado_kwh = consumo_mensal_estimado_kwh;
+	}
+	
+	public double getLastCons() {
+		 double last = registrosDoMes.get(registrosDoMes.size() - 1);
+		 System.out.println(last);
+		 return last;
 	}
 
 }

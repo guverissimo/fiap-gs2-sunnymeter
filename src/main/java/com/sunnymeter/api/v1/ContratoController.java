@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import com.sunnymeter.api.core.cliente.ClienteRepository;
 import com.sunnymeter.api.core.contrato.Contrato;
 import com.sunnymeter.api.core.contrato.ContratoRepository;
 import com.sunnymeter.api.core.contrato.DadosCadastroContrato;
 import com.sunnymeter.api.core.contrato.DadosDetalhamentoContrato;
+import com.sunnymeter.api.core.instalacao.InstalacaoRepository;
 
 import jakarta.validation.Valid;
 
@@ -28,11 +31,24 @@ import jakarta.validation.Valid;
 public class ContratoController {
 
 	@Autowired
-	private ContratoRepository repository;
+	private ContratoRepository 	repository;
+	
+	@Autowired
+	private ClienteRepository 	clienteRepository;
+	
+	@Autowired
+	private InstalacaoRepository instalacaoRepository;
 	
 	@PostMapping
 	@Transactional
 	public ResponseEntity create(@RequestBody @Valid DadosCadastroContrato dados, UriComponentsBuilder uriBuilder ) {
+		
+		var instalacao = instalacaoRepository.findById(dados.instalacao_uuid())
+                .orElseThrow(() -> new IllegalArgumentException("Instalação não encontrada: " + dados.instalacao_uuid()));
+		
+		var cliente = clienteRepository.findById(dados.cliente_uuid())
+				 .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado: " + dados.cliente_uuid()));
+		
 		if (dados.timeframe() % 90 != 0 || dados.timeframe() > 810 || dados.timeframe() < 90 ) {
 			return ResponseEntity.badRequest().body("A vigência de um contrato deverá ser um múltiplo de 90, podendo ir de 90 dias a 810 dias.");
 		}
@@ -51,14 +67,17 @@ public class ContratoController {
 	
 	@GetMapping("{contrato_uuid}")
 	public ResponseEntity findById(@PathVariable UUID contrato_uuid) {
-		var contrato = repository.getReferenceById(contrato_uuid);
+		var contrato = repository.findById(contrato_uuid)
+				.orElseThrow(() -> new IllegalArgumentException("Contrato não encontrado: " + contrato_uuid));
 		return ResponseEntity.ok(new DadosDetalhamentoContrato(contrato));
 	}
 	
 	@DeleteMapping("{contrato_uuid}")
 	@Transactional
 	public ResponseEntity delete(@PathVariable UUID contrato_uuid) {
-		var contrato = repository.getReferenceById(contrato_uuid);
+		var contrato = repository.findById(contrato_uuid)
+				.orElseThrow(() -> new IllegalArgumentException("Contrato não encontrado: " + contrato_uuid));
+		
 		contrato.deletar();
 		
 		return ResponseEntity.ok(new DadosDetalhamentoContrato(contrato));
